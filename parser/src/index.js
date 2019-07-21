@@ -123,15 +123,13 @@ fs.readFile(servicesEnvFilePath, 'utf8')
           const fileContent = serviceEnvs[envName];
           const fileContentAsString = fileContent.join("\n");
 
-          logger('creating env file: ', JSON.stringify({
-            outputFilePath,
-            fileContentAsString,
-          }));
-
-          return fs.writeFile(outputFilePath, fileContentAsString);
+          return fs.writeFile(outputFilePath, fileContentAsString)
+            .then(() => fileName);
         })
-      );
+      )
+        .then((createdFiles) => ({ [serviceName]: createdFiles }));
     })
   ))
+  .then((createdFilesByServices) => logger('SUCCESED: output files', createdFilesByServices))
   .catch(e);
 

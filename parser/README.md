@@ -17,7 +17,7 @@ docker run \
 ```
 
 **config it:**
-```shell
+```
 --env SERVICES_DIR = main directory with microservices (default: services),
 --env YML_FILENAME = filename with extension (default: env.yml),
 --env OUTPUT_FORMAT = output file format (default: .env),
