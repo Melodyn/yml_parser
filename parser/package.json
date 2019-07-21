@@ -1,0 +1,6 @@
+{
+  "main": "index.js",
+  "dependencies": {
+    "yaml": "^1.6.0"
+  }
+}
