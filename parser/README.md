@@ -2,12 +2,12 @@
 
 Читает конфиг с переменными окружения и создаёт env-файлы в директориях микросервисов. Директории должны существовать на хосте на момент запуска скрипта.
 
-build it:
+**build it:**
 ```shell
 docker build -t yml_parser ./parser
 ```
 
-run it:
+**run it:**
 ```shell
 docker run \
     --rm \
@@ -16,15 +16,15 @@ docker run \
     yml_parser
 ```
 
-config it:
-```
-  SERVICES_DIR = main directory with microservices (default: services),
-  YML_FILENAME = filename with extension (default: env.yml),
-  OUTPUT_FORMAT = output file format (default: .env),
-  MAIN_OUTPUT_DIR = service dir with envs (default: deployment),
+**config it:**
+```shell
+--env SERVICES_DIR = main directory with microservices (default: services),
+--env YML_FILENAME = filename with extension (default: env.yml),
+--env OUTPUT_FORMAT = output file format (default: .env),
+--env MAIN_OUTPUT_DIR = service dir with envs (default: deployment),
 ```
 
-see it?
+**see it?**
 ```shell
 docker run \
     --rm \
