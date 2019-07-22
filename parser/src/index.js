@@ -20,6 +20,7 @@ const logger = (
 const servicesDirLevel = '.';
 const defaultServicesDirname = 'services';
 const defaultServicesEnvFilename = 'env.yml';
+const defaultServicesEnvFilePath = path.join(defaultServicesDirname, defaultServicesEnvFilename);
 const defaultOutputFileFormat = '.env';
 const defaultMainOutputDir = 'deployment';
 const OUTPUT_DIRS = new Map([
@@ -32,10 +33,10 @@ const EXCLUDE_ENVS = ['empty', 'local'];
 const {
   SERVICES_DIR = defaultServicesDirname,
   YML_FILENAME = defaultServicesEnvFilename,
+  YML_FILEPATH = defaultServicesEnvFilePath,
   OUTPUT_FORMAT = defaultOutputFileFormat,
   MAIN_OUTPUT_DIR = defaultMainOutputDir,
 } = process.env;
-
 
 const servicesDirname = SERVICES_DIR;
 const servicesEnvFilename = YML_FILENAME;
@@ -43,7 +44,7 @@ const mainOutputDir = MAIN_OUTPUT_DIR;
 const outputFileFormat = OUTPUT_FORMAT;
 const excludedEnvs = EXCLUDE_ENVS;
 const env_dir = OUTPUT_DIRS;
-const servicesEnvFilePath = path.join(servicesDirLevel, servicesDirname, servicesEnvFilename);
+const servicesEnvFilePath = path.join(servicesDirLevel, YML_FILEPATH);
 
 logger('input config: ', {
   servicesEnvFilePath,
