@@ -4,7 +4,7 @@
 
 **build it:**
 ```shell
-docker build -t yml_parser ./parser
+docker build -t yml_parser:1 ./yml_parser
 ```
 
 **run it:**
@@ -12,14 +12,17 @@ docker build -t yml_parser ./parser
 docker run \
     --rm \
     --name yml_parser \
-    -v $(pwd)/services:/usr/src/app/services \
-    yml_parser
+    -u $(id -u ${USER}):$(id -g ${USER}) \
+    -v $(pwd):/usr/src/app/kari-recruiting \
+    --env SERVICES_DIR=./kari-recruiting/packages/backend \
+    --env YML_FILEPATH=./kari-recruiting/envs.yml \
+    yml_parser:1
 ```
 
 **config it:**
 ```
 --env SERVICES_DIR = main directory with microservices (default: services),
---env YML_FILENAME = filename with extension (default: env.yml),
+--env YML_FILEPATH = path to yml file on container (default: services/env.yml),
 --env OUTPUT_FORMAT = output file format (default: .env),
 --env MAIN_OUTPUT_DIR = service dir with envs (default: deployment),
 ```
@@ -28,10 +31,13 @@ docker run \
 ```shell
 docker run \
     --rm \
-    --name yml_parser \
     -it \
-    -v $(pwd)/services:/usr/src/app/services \
-    yml_parser \
+    --name yml_parser \
+    -u $(id -u ${USER}):$(id -g ${USER}) \
+    -v $(pwd):/usr/src/app/kari-recruiting \
+    --env SERVICES_DIR=./kari-recruiting/packages/backend \
+    --env YML_FILEPATH=./kari-recruiting/envs.yml \
+    yml_parser:1 \
     /bin/bash
 # in container:
 cat ./src/index.js

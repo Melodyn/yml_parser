@@ -17,36 +17,34 @@ const logger = (
 
 //
 
-const servicesDirLevel = '.';
 const defaultServicesDirname = 'services';
 const defaultServicesEnvFilename = 'env.yml';
 const defaultServicesEnvFilePath = path.join(defaultServicesDirname, defaultServicesEnvFilename);
 const defaultOutputFileFormat = '.env';
 const defaultMainOutputDir = 'deployment';
 const OUTPUT_DIRS = new Map([
-  ['dev', 'dev'],
-  ['test', 'test'],
-  ['production', 'master'],
+  ['dev', 'MAPP_DEV'],
+  ['test', 'MAPP_TEST'],
+  ['production', 'MAPP'],
 ]);
 const EXCLUDE_ENVS = ['empty', 'local'];
 
 const {
   SERVICES_DIR = defaultServicesDirname,
-  YML_FILENAME = defaultServicesEnvFilename,
   YML_FILEPATH = defaultServicesEnvFilePath,
   OUTPUT_FORMAT = defaultOutputFileFormat,
   MAIN_OUTPUT_DIR = defaultMainOutputDir,
 } = process.env;
 
 const servicesDirname = SERVICES_DIR;
-const servicesEnvFilename = YML_FILENAME;
 const mainOutputDir = MAIN_OUTPUT_DIR;
 const outputFileFormat = OUTPUT_FORMAT;
 const excludedEnvs = EXCLUDE_ENVS;
 const env_dir = OUTPUT_DIRS;
-const servicesEnvFilePath = path.join(servicesDirLevel, YML_FILEPATH);
+const servicesEnvFilePath = YML_FILEPATH;
 
 logger('input config: ', {
+  servicesDirname,
   servicesEnvFilePath,
   outputFileFormat,
   mainOutputDir,
@@ -112,14 +110,14 @@ fs.readFile(servicesEnvFilePath, 'utf8')
   .then(variables => sortVarsByServices(variables, excludedEnvs))
   .then(services => Promise.all(
     keys(services).map((serviceName) => {
-      const serviceEnvsDir = path.join(servicesDirLevel, servicesDirname, serviceName, mainOutputDir);
+      const serviceEnvsDir = path.join(servicesDirname, serviceName, mainOutputDir);
       const serviceEnvs = services[serviceName];
 
       return Promise.all(
         keys(serviceEnvs).map((envName) => {
           const envDirName = env_dir.get(envName);
           const envDirPath = path.join(serviceEnvsDir, envDirName);
-          const fileName = serviceName + '.' + envName + outputFileFormat;
+          const fileName = 'vars' + outputFileFormat;
           const outputFilePath = path.join(envDirPath, fileName);
           const fileContent = serviceEnvs[envName];
           const fileContentAsString = fileContent.join("\n");
